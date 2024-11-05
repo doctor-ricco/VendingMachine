@@ -101,8 +101,8 @@ public class Main {
                         String marca = scanner.nextLine();
                         novoProduto = new Refrigerante(nome, preco, referencia, prazoValidade, tipo, marca);
                     } else if (tipoProduto == 3) {
-                        System.out.println("Tipo (mista/fiambre/queijo):");
-                        String tipo = scanner.nextLine();
+                        System.out.println("Tipo (1 - queijo || 2 - fiambre || 3 - mista):");
+                        int tipo = scanner.nextInt();
                         System.out.println("Nome do Produtor:");
                         String nomeProdutor = scanner.nextLine();
                         novoProduto = new Sande(nome, preco, referencia, prazoValidade, tipo, nomeProdutor);
@@ -118,8 +118,11 @@ public class Main {
                 case 2:
                     System.out.println("Histórico de Vendas:");
                     maquina.visualizarHistorico();
+                    System.out.println(" ");
                     break;
                 case 3:
+                    maquina.exibirProdutosDisponiveis();
+                    System.out.println(" ");
                     System.out.println("Referência do produto a ser retirado:");
                     String referenciaProduto = scanner.nextLine();
                     colaborador.retirarProduto(maquina, referenciaProduto);
@@ -128,6 +131,7 @@ public class Main {
                     break;
                 case 4:
                     colaborador.consultarSaldoTotal(maquina);
+                    System.out.println(" ");
                     break;
                 default:
                     System.out.println("Opção inválida.");

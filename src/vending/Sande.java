@@ -2,20 +2,20 @@ package vending;
 
 
 class Sande extends Produto {
-    private String tipo;
+    private int tipo;
     private String nomeProdutor;
 
-    public Sande(String nome, double preco, String referencia, String prazoValidade, String tipo, String nomeProdutor) {
+    public Sande(String nome, double preco, String referencia, String prazoValidade, int tipo, String nomeProdutor) {
         super(nome, preco, referencia, prazoValidade);
         this.tipo = tipo;
         this.nomeProdutor = nomeProdutor;
     }
 
-    public String getTipo() {
+    public int getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(int tipo) {
         this.tipo = tipo;
     }
 

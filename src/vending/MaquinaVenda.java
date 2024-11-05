@@ -140,8 +140,9 @@ class MaquinaVenda implements Serializable {
     }
 
     public void exibirProdutosDisponiveis() {
-
+        System.out.println(" ");
         System.out.println("Produtos Disponíveis:");
+        System.out.println(" ");
         if (chocolates.isEmpty()) {
             System.out.println("Não há chocolates disponíveis no momento.");
         } else {
@@ -177,9 +178,17 @@ class MaquinaVenda implements Serializable {
         if (sandes.isEmpty()) {
             System.out.println("Não há sandes disponíveis no momento.");
         } else {
+            String tipoSande="";
             System.out.println("Sandes:");
             for (Sande sande : sandes) {
-                System.out.printf("Referência: %s, Nome: %s, Preço: %.2f%n", sande.getReferencia(), sande.getNome(), sande.getPreco());
+                if(sande.getTipo()==1){
+                    tipoSande="queijo";
+                } else if (sande.getTipo()==2){
+                    tipoSande="fiambre";
+                }else{
+                    tipoSande="mista";
+                }
+                System.out.printf("Referência: %s, Nome: %s, Tipo: %s, Preço: %.2f%n", sande.getReferencia(), sande.getNome(), tipoSande, sande.getPreco());
             }
         }
 
