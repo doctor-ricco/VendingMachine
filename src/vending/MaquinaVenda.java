@@ -5,12 +5,16 @@ import java.util.List;
 import java.io.*;
 
 class MaquinaVenda implements Serializable {
+    //Construtor
+
+    //Atributos
     private List<Chocolate> chocolates = new ArrayList<>();
     private List<Refrigerante> refrigerantes = new ArrayList<>();
     private List<Sande> sandes = new ArrayList<>();
     private double saldoTotal;
     private List<String> historicoVendas = new ArrayList<>();
 
+    //Métodos
     public void adicionarProduto(Produto produto) {
         if (produto instanceof Chocolate) {
             if (chocolates.size() < 20) {
