@@ -39,8 +39,8 @@ public class Main {
     }
 
     private static void autenticarEExecutarMenuColaborador(Scanner scanner, MaquinaVenda maquina) {
-        Usuario usuario = new Usuario("Isabella", "senha123"); // Login e senha de exemplo
-        Colaborador colaborador = new Colaborador("João", "12345", usuario);
+        Usuario usuario = new Usuario("Isabella", "senha123"); //Credenciais do User Isabella
+        Colaborador colaborador = new Colaborador("Isabella", "12345", usuario); // Info do Colaborador
 
         Console console = System.console();
         if (console == null) {
@@ -52,7 +52,7 @@ public class Main {
         String username = console.readLine();
 
         System.out.println("Digite a senha:");
-        char[] passwordChars = console.readPassword(); // Lê a senha sem exibi-la
+        char[] passwordChars = console.readPassword(); // Lê a senha sem exibi-la, mas não funciona no InteliJ, só na consola do SO
         String password = new String(passwordChars);
 
         if (colaborador.autenticar(username, password)) {

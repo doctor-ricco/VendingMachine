@@ -36,7 +36,6 @@ public class MenuCliente {
         }
     }
 
-    // Remova o modificador static do método comprarProduto
     private void comprarProduto(Scanner scanner) {
 
         if (maquina.getChocolates().isEmpty() && maquina.getRefrigerantes().isEmpty() && maquina.getSandes().isEmpty()) {

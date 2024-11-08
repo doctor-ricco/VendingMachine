@@ -67,19 +67,6 @@ class MaquinaVenda implements Serializable {
         return sandes;
     }
 
-//    public void carregarDados() {
-//        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("stock.dat"))) {
-//            MaquinaVenda maquina = (MaquinaVenda) ois.readObject();
-//            this.chocolates = maquina.chocolates;
-//            this.refrigerantes = maquina.refrigerantes;
-//            this.sandes = maquina.sandes;
-//            this.saldoTotal = maquina.saldoTotal;
-//            this.historicoVendas = maquina.historicoVendas;
-//        } catch (IOException | ClassNotFoundException e) {
-//            System.out.println("Erro ao carregar dados.");
-//        }
-//    }
-
     public void carregarDados() {
         File file = new File("stock.dat");
         if (!file.exists()) {
@@ -98,14 +85,6 @@ class MaquinaVenda implements Serializable {
         }
     }
 
-
-//    public void salvarDados() {
-//        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("stock.dat"))) {
-//            oos.writeObject(this);
-//        } catch (IOException e) {
-//            System.out.println("Erro ao salvar dados.");
-//        }
-//    }
 
     public void salvarDados() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("stock.dat"))) {
