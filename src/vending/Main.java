@@ -1,22 +1,10 @@
 package vending;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
+import java.io.Console;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("***     ********");
-        System.out.println("***     ***********");
-        System.out.println("***     ***      ***");
-        System.out.println("***     *********");
-        System.out.println("***     ***  ***");
-        System.out.println("***     ***     ***");
-        System.out.println("***     ***      ***");
-        System.out.println("***     ***      ***");
-        System.out.println(" ");
-        System.out.println("VENDING MACHINES");
-        System.out.println(" ");
-
         Scanner scanner = new Scanner(System.in);
         MaquinaVenda maquina = new MaquinaVenda();
         maquina.carregarDados();
@@ -38,7 +26,7 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    menuColaborador(scanner, maquina);
+                    autenticarEExecutarMenuColaborador(scanner, maquina);
                     break;
                 case 2:
                     menuCliente(scanner, maquina);
@@ -50,9 +38,32 @@ public class Main {
         scanner.close();
     }
 
-    private static void menuColaborador(Scanner scanner, MaquinaVenda maquina) {
-        Colaborador colaborador = new Colaborador("João", "12345");
+    private static void autenticarEExecutarMenuColaborador(Scanner scanner, MaquinaVenda maquina) {
+        Usuario usuario = new Usuario("Isabela", "senha123"); // Login e senha de exemplo
+        Colaborador colaborador = new Colaborador("João", "12345", usuario);
 
+        Console console = System.console();
+        if (console == null) {
+            System.out.println("Console não está disponível. Execute o programa em um ambiente que suporte Console.");
+            return;
+        }
+
+        System.out.println("Digite o nome de usuário:");
+        String username = console.readLine();
+
+        System.out.println("Digite a senha:");
+        char[] passwordChars = console.readPassword(); // Lê a senha sem exibi-la
+        String password = new String(passwordChars);
+
+        if (colaborador.autenticar(username, password)) {
+            System.out.println("Autenticação bem-sucedida!");
+            menuColaborador(scanner, maquina, colaborador);
+        } else {
+            System.out.println("Credenciais inválidas. Tente novamente.");
+        }
+    }
+
+    private static void menuColaborador(Scanner scanner, MaquinaVenda maquina, Colaborador colaborador) {
         while (true) {
             System.out.println("Menu do Colaborador:");
             System.out.println("1. Adicionar Produto");
@@ -70,51 +81,8 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-
-                    System.out.println("Escolha o tipo de produto (1: Chocolate, 2: Refrigerante, 3: Sande):");
-                    int tipoProduto = scanner.nextInt();
-                    scanner.nextLine();
-
-                    System.out.println("Nome do produto:");
-                    String nome = scanner.nextLine();
-                    System.out.println("Preço:");
-                    double preco = scanner.nextDouble();
-                    scanner.nextLine();
-                    System.out.println("Referência:");
-                    String referencia = scanner.nextLine();
-                    System.out.println("Prazo de validade:");
-                    String prazoValidade = scanner.nextLine();
-
-                    Produto novoProduto = null;
-
-                    if (tipoProduto == 1) {
-                        System.out.println("Tipo de Cacau (1: Branco || 2: Ao leite || 3: Negro)");
-                        int tipoCacau = scanner.nextInt();
-                        scanner.nextLine();
-                        System.out.println("Marca:");
-                        String marca = scanner.nextLine();
-                        novoProduto = new Chocolate(nome, preco, referencia, prazoValidade, tipoCacau, marca);
-                    } else if (tipoProduto == 2) {
-                        System.out.println("Tipo (1: Normal || 2: Sem açúcar)"); // FALTA IMPLEMENTAR COMO INTEIRO AO INVÉS DE STRING
-                        int tipo = scanner.nextInt();
-                        System.out.println("Marca:");
-                        String marca = scanner.nextLine();
-                        novoProduto = new Refrigerante(nome, preco, referencia, prazoValidade, tipo, marca);
-                    } else if (tipoProduto == 3) {
-                        System.out.println("Tipo (1 - queijo || 2 - fiambre || 3 - mista):");
-                        int tipo = scanner.nextInt();
-                        System.out.println("Nome do Produtor:");
-                        String nomeProdutor = scanner.nextLine();
-                        novoProduto = new Sande(nome, preco, referencia, prazoValidade, tipo, nomeProdutor);
-                    }
-
-                    if (novoProduto != null) {
-                        colaborador.adicionarProduto(maquina, novoProduto);
-                    }
-                    maquina.salvarDados();
-
+                    // Lógica para adicionar produto
                     break;
-
                 case 2:
                     System.out.println("Histórico de Vendas:");
                     maquina.visualizarHistorico();
@@ -127,7 +95,6 @@ public class Main {
                     String referenciaProduto = scanner.nextLine();
                     colaborador.retirarProduto(maquina, referenciaProduto);
                     maquina.salvarDados();
-
                     break;
                 case 4:
                     colaborador.consultarSaldoTotal(maquina);
