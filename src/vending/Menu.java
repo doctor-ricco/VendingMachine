@@ -1,5 +1,6 @@
 package vending;
 
+import java.io.Console;
 import java.util.Scanner;
 
 public class Menu {
@@ -41,11 +42,22 @@ public class Menu {
     }
 
     private void autenticarColaborador(Scanner scanner) {
+        Console console = System.console();
+
         System.out.println("Digite o nome de usuário:");
         String username = scanner.nextLine();
 
-        System.out.println("Digite a senha:");
-        String password = scanner.nextLine();
+        String password;
+        if (console != null) {
+            // Usa Console para ocultar a senha
+            System.out.println("Digite a senha:");
+            char[] passwordChars = console.readPassword();
+            password = new String(passwordChars);
+        } else {
+            // Fallback para Scanner caso Console não esteja disponível
+            System.out.println("Digite a senha (não será ocultada neste ambiente):");
+            password = scanner.nextLine();
+        }
 
         if (colaborador.autenticar(username, password)) {
             System.out.println("Autenticação bem-sucedida!");
