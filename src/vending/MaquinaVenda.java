@@ -1,3 +1,4 @@
+
 package vending;
 
 import java.util.ArrayList;
@@ -36,6 +37,37 @@ class MaquinaVenda implements Serializable {
         }
     }
 
+    public Produto buscarProdutoPorReferencia(String referencia, int tipoProduto) {
+        switch (tipoProduto) {
+            case 1:
+                for (Chocolate chocolate : chocolates) {
+                    if (chocolate.getReferencia().equals(referencia)) {
+                        return chocolate;
+                    }
+                }
+                break;
+            case 2:
+                for (Refrigerante refrigerante : refrigerantes) {
+                    if (refrigerante.getReferencia().equals(referencia)) {
+                        return refrigerante;
+                    }
+                }
+                break;
+            case 3:
+                for (Sande sande : sandes) {
+                    if (sande.getReferencia().equals(referencia)) {
+                        return sande;
+                    }
+                }
+                break;
+            default:
+                System.out.println("Tipo de produto inválido.");
+                return null;
+        }
+        System.out.println("Produto não encontrado.");
+        return null;
+    }
+
     public void registrarVenda(double preco, String nomeProduto) {
         saldoTotal += preco;
         historicoVendas.add(nomeProduto + " - " + preco);
@@ -67,36 +99,7 @@ class MaquinaVenda implements Serializable {
         return sandes;
     }
 
-    public void carregarDados() {
-        File file = new File("stock.dat");
-        if (!file.exists()) {
-            System.out.println("Arquivo de dados não encontrado. Iniciando novo estoque.");
-            return;
-        }
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            MaquinaVenda maquina = (MaquinaVenda) ois.readObject();
-            this.chocolates = maquina.chocolates;
-            this.refrigerantes = maquina.refrigerantes;
-            this.sandes = maquina.sandes;
-            this.saldoTotal = maquina.saldoTotal;
-            this.historicoVendas = maquina.historicoVendas;
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Erro ao carregar dados: " + e.getMessage());
-        }
-    }
-
-
-    public void salvarDados() {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("stock.dat"))) {
-            oos.writeObject(this);
-            System.out.println("Dados salvos com sucesso.");
-        } catch (IOException e) {
-            System.out.println("Erro ao salvar dados: " + e.getMessage());
-        }
-    }
-
     public boolean removerProdutoPorReferencia(String referencia) {
-        // Tentar remover de cada lista de produtos
         for (Chocolate chocolate : chocolates) {
             if (chocolate.getReferencia().equals(referencia)) {
                 chocolates.remove(chocolate);
@@ -115,7 +118,7 @@ class MaquinaVenda implements Serializable {
                 return true;
             }
         }
-        return false; // Retorna falso se o produto não foi encontrado
+        return false;
     }
 
     public void exibirProdutosDisponiveis() {
@@ -125,53 +128,70 @@ class MaquinaVenda implements Serializable {
         if (chocolates.isEmpty()) {
             System.out.println("Não há chocolates disponíveis no momento.");
         } else {
-            String cacauTipoString="";
             System.out.println("Chocolates:");
             for (Chocolate chocolate : chocolates) {
-                if(chocolate.getTipoCacau()==1){
-                    cacauTipoString="Branco";
-                } else if (chocolate.getTipoCacau()==2) {
-                    cacauTipoString="Ao leite";
-                } else{
-                    cacauTipoString="Negro";
-                }
-                System.out.printf("Referência: %s, Nome: %s, Tipo Cacau: %s, Preço: %.2f%n", chocolate.getReferencia(), chocolate.getNome(), cacauTipoString , chocolate.getPreco());
+                System.out.printf("Referência: %s, Nome: %s, Preço: %.2f%n", chocolate.getReferencia(), chocolate.getNome(), chocolate.getPreco());
             }
         }
 
         if (refrigerantes.isEmpty()) {
             System.out.println("Não há refrigerantes disponíveis no momento.");
         } else {
-            String tipoRefri="";
             System.out.println("Refrigerantes:");
             for (Refrigerante refrigerante : refrigerantes) {
-                if(refrigerante.getTipo()==1){
-                    tipoRefri="Normal";
-                }else{
-                    tipoRefri="Sem açucar";
-                }
-                System.out.printf("Referência: %s, Nome: %s, Tipo: %s, Preço: %.2f%n", refrigerante.getReferencia(), refrigerante.getNome(), tipoRefri , refrigerante.getPreco());
+                System.out.printf("Referência: %s, Nome: %s, Preço: %.2f%n", refrigerante.getReferencia(), refrigerante.getNome(), refrigerante.getPreco());
             }
         }
 
         if (sandes.isEmpty()) {
             System.out.println("Não há sandes disponíveis no momento.");
         } else {
-            String tipoSande="";
             System.out.println("Sandes:");
             for (Sande sande : sandes) {
-                if(sande.getTipo()==1){
-                    tipoSande="queijo";
-                } else if (sande.getTipo()==2){
-                    tipoSande="fiambre";
-                }else{
-                    tipoSande="mista";
-                }
-                System.out.printf("Referência: %s, Nome: %s, Tipo: %s, Preço: %.2f%n", sande.getReferencia(), sande.getNome(), tipoSande, sande.getPreco());
+                System.out.printf("Referência: %s, Nome: %s, Preço: %.2f%n", sande.getReferencia(), sande.getNome(), sande.getPreco());
             }
         }
-
-
     }
+
+
+    public void carregarDados() {
+        File file = new File("stock.dat");
+        if (!file.exists()) {
+            System.out.println("Arquivo de dados não encontrado. Iniciando novo estoque.");
+            return;
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            MaquinaVenda maquina = (MaquinaVenda) ois.readObject();
+            this.chocolates = maquina.chocolates;
+            this.refrigerantes = maquina.refrigerantes;
+            this.sandes = maquina.sandes;
+            this.saldoTotal = maquina.saldoTotal;
+            this.historicoVendas = maquina.historicoVendas;
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Erro ao carregar dados: " + e.getMessage());
+        }
+    }
+
+    public void salvarDados() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("stock.dat"))) {
+            oos.writeObject(this);
+            System.out.println("Dados salvos com sucesso.");
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar dados: " + e.getMessage());
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
