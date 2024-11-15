@@ -121,6 +121,7 @@ public class Menu {
             switch (opcao) {
                 case 1:
                     maquina.exibirProdutosDisponiveis();
+                    System.out.println(" ");
                     Cliente.comprarProduto(maquina, scanner);
                     break;
                 default:

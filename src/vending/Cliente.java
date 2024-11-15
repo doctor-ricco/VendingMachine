@@ -7,6 +7,11 @@ class Cliente {
         if (maquina.getChocolates().isEmpty() && maquina.getRefrigerantes().isEmpty() && maquina.getSandes().isEmpty()) {
             System.out.println("Máquina temporariamente indisponível. Dirija-se a outra estação. Obrigado.");
         } else {
+
+            System.out.println("Insira o montante:");
+            double montante = scanner.nextDouble();
+            scanner.nextLine();
+
             System.out.println("Escolha o tipo de produto (1: Chocolate, 2: Refrigerante, 3: Sande):");
             int tipoProduto = scanner.nextInt();
             scanner.nextLine();
@@ -17,10 +22,6 @@ class Cliente {
                 System.out.println("Produto não encontrado.");
                 return;
             }
-
-            System.out.println("Insira o montante:");
-            double montante = scanner.nextDouble();
-            scanner.nextLine();
 
             if (montante < produtoSelecionado.getPreco()) {
                 System.out.printf("Montante insuficiente! Você precisa de %.2f a mais.\n", produtoSelecionado.getPreco() - montante);
